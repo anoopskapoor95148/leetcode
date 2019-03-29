@@ -1,0 +1,78 @@
+void
+exist_internal (char** board, int boardRowSize, int boardColSize, char *word, bool boardtmp[boardRowSize][boardColSize], int row, int col, bool *flag) {
+    if ((word[0] == '\0')) {
+        *flag = true;
+        return;
+    }
+    boardtmp[row][col] = true;
+    
+    if ((row+1) < boardRowSize) {
+        if (boardtmp[row+1][col] == false) {
+            if (word[0] == board[row+1][col]) {
+               exist_internal (board, boardRowSize, boardColSize, &word[1], boardtmp, row+1, col, flag);
+               if (*flag == true)
+                   return;
+            }
+        } 
+    }
+    if ((row-1) >= 0) {
+        if (boardtmp[row-1][col] == false) {
+            if (word[0] == board[row-1][col]) {
+               exist_internal (board, boardRowSize, boardColSize, &word[1], boardtmp, row-1, col, flag);
+               if (*flag == true) {
+                   boardtmp[row][col] = true;
+                   return;
+                }
+            }
+        } 
+    }
+    if ((col+1) < boardColSize) {
+        if (boardtmp[row][col+1] == false) {
+            if (word[0] == board[row][col+1]) {
+               exist_internal (board, boardRowSize, boardColSize, &word[1], boardtmp, row, col+1, flag);
+               if (*flag == true) {
+                   boardtmp[row][col] = true;
+                   return;
+                }
+            }
+        } 
+    }
+    if ((col-1) >= 0) {
+        if (boardtmp[row][col-1] == false) {
+            if (word[0] == board[row][col-1]) {
+               exist_internal (board, boardRowSize, boardColSize, &word[1], boardtmp, row, col-1, flag);
+               if (*flag == true) {
+                   boardtmp[row][col] = true;
+                   return;
+                }
+            
+            }
+        } 
+    }
+    boardtmp[row][col] = false;
+    return;
+}
+    
+bool exist(char** board, int boardRowSize, int boardColSize, char* word) {
+       if ((boardRowSize <=0) || (boardColSize <=0) || (word[0] == '\0')) {
+           return true;
+       }
+       bool flag = false;
+       int i=0,j=0,k,l;
+       bool boardtmp[boardRowSize][boardColSize];
+        for(k=0; k <boardRowSize; ++k)
+            for(l=0; l <boardColSize; ++l)
+                boardtmp[k][l] = false;
+        for(i=0; i <boardRowSize; ++i) {
+            for(j=0; j <boardColSize; ++j) {
+                if (board[i][j] == word[0]) {
+                         printf (" -%c-", word[0]);
+                        exist_internal (board, boardRowSize, boardColSize, &word[1], boardtmp, i, j, &flag);
+                        if (flag == true) {
+                            return true;
+                        }
+                }
+            }
+        }
+        return false;
+}
