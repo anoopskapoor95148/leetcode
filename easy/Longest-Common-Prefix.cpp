@@ -13,6 +13,3 @@ public:
         return strs[0];
     }
 };
-~                                                                                                                                                 
-~                                                                                                                                                 
-~     
